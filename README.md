@@ -58,9 +58,9 @@ quill-journaling-app/
 
 ---
 
-## 🌍 Live Demo
+## 🌍 Live         
 
-👉 [GitHub Pages Link](https://SagarXdev23.io/quill-journaling-app/)
+👉 [GitHub Pages Link](https://Sagarxdev23.github.io/Quill-Journaling-App/)
 
 ---
 
