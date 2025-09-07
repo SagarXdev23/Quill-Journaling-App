@@ -48,7 +48,7 @@ quill-journaling-app/
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/quill-journaling-app.git
+   git clone https://github.com/SagarXdev23/quill-journaling-app
    ```
 2. Open the project folder:
    ```bash
