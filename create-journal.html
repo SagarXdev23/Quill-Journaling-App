@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="queries.css">
+  <title>Create Journal | Quill</title>
+</head>
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <header>
+      <nav class="navbar">
+        <a class="beta" href="index.html">
+          <img class="logo-md" src="images/quill.svg" alt="quill logo">
+        </a>
+        <ul class="nav-btn-container">
+          <li><a class="btn btn-primary-outline" href="login.html">Login</a></li>
+          <li><a class="btn btn-primary" href="register.html">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- FULL PAGE CREATE JOURNAL -->
+    <main>
+      <section class="journal-section">
+        <h1 class="journal-heading">Create Journal</h1>
+        <form action="/api/v1/journals" method="post" class="journal-form">
+
+          <div class="journal-group">
+            <label for="main-title">Journal Title</label>
+            <input id="main-title" type="text" name="title" placeholder="Enter title" minlength="3" required>
+          </div>
+
+          <div class="journal-group">
+            <label for="journal-category">Journal Category</label>
+            <select id="journal-category" name="category" required>
+              <option value="idea">Idea</option>
+              <option value="note">Note</option>
+              <option value="goal">Goal</option>
+              <option value="habit">Habit</option>
+              <option value="memory">Memory</option>
+              <option value="mood">Mood</option>
+              <option value="event">Event</option>
+              <option value="task">Task</option>
+            </select>
+          </div>
+
+          <div class="journal-group">
+            <label for="journal-entry">Journal Entry</label>
+            <textarea id="journal-entry" name="entry" rows="12" minlength="10" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save Journal</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <a href="index.html"><img class="logo-sm" src="images/quill.svg" alt="quill logo"></a>
+      <ul class="social-icons-container">
+        <li><a href="https://www.instagram.com/"><img class="social-icons" src="images/instagram.svg" alt="instagram logo"></a></li>
+        <li><a href="https://www.facebook.com/"><img class="social-icons" src="images/facebook.svg" alt="facebook logo"></a></li>
+        <li><a href="https://www.tiktok.com/"><img class="social-icons" src="images/tiktok.svg" alt="tiktok logo"></a></li>
+        <li><a href="https://www.linkedin.com/"><img class="social-icons" src="images/linkedin.svg" alt="linkedin logo"></a></li>
+        <li><a href="https://www.youtube.com/"><img class="social-icons" src="images/youtube.svg" alt="youtube logo"></a></li>
+      </ul>
+      <ul class="footer-links-container">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+      <p class="small-text">Made with <span class="heart-icon">♥︎</span> in India</p>
+    </footer>
+  </div>
+
+  <!-- Chat Button -->
+  <div class="chat-container">
+    <img class="chat-icon" src="images/chat.svg" alt="chat icon">
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
