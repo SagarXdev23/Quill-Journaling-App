@@ -5,14 +5,477 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&family=Merriweather:wght@400;700&family=Roboto:wght@400;500;700&family=Lora:wght@400;600&family=Open+Sans:wght@400;600&family=Dancing+Script:wght@600;700&family=Pacifico&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="queries.css">
   <title>Create Journal | Quill</title>
+  <style>
+    /* Enhanced Journal Page Styles */
+    
+    /* Font Variables */
+    :root {
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+      --font-handwriting: 'Caveat', cursive;
+      --font-default: 'Poppins', sans-serif;
+    }
+
+    /* Font Classes for User Selection */
+    .font-playfair { font-family: 'Playfair Display', serif !important; }
+    .font-merriweather { font-family: 'Merriweather', serif !important; }
+    .font-lora { font-family: 'Lora', serif !important; }
+    .font-inter { font-family: 'Inter', sans-serif !important; }
+    .font-roboto { font-family: 'Roboto', sans-serif !important; }
+    .font-open-sans { font-family: 'Open Sans', sans-serif !important; }
+    .font-poppins { font-family: 'Poppins', sans-serif !important; }
+    .font-caveat { font-family: 'Caveat', cursive !important; }
+    .font-dancing { font-family: 'Dancing Script', cursive !important; }
+    .font-pacifico { font-family: 'Pacifico', cursive !important; }
+    .journal-page-wrapper {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+
+    .journal-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .journal-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.6s ease;
+    }
+
+    .journal-header h1 {
+      color: white;
+      font-size: 5.6rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-family: var(--font-heading);
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .journal-header p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.8rem;
+      font-family: var(--font-body);
+      font-weight: 500;
+    }
+
+    .journal-stats {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 2rem 3rem;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-card h3 {
+      color: white;
+      font-size: 3.6rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+    }
+
+    .stat-card p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.4rem;
+      font-family: var(--font-body);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .journal-form-card {
+      background: white;
+      border-radius: 20px;
+      padding: 4rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.6s ease 0.4s both;
+      position: relative;
+    }
+
+    /* Font Selector Styles */
+    .font-selector-container {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      z-index: 10;
+    }
+
+    .font-selector-btn {
+      background: var(--secondary-tint);
+      border: 2px solid var(--secondary-base);
+      color: var(--secondary-shade);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: all 0.3s;
+      font-family: var(--font-body);
+    }
+
+    .font-selector-btn:hover {
+      background: var(--secondary-base);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(151, 117, 250, 0.3);
+    }
+
+    .font-dropdown {
+      position: absolute;
+      top: 120%;
+      right: 0;
+      background: white;
+      border: 2px solid var(--secondary-base);
+      border-radius: 12px;
+      padding: 1rem;
+      min-width: 280px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 100;
+    }
+
+    .font-dropdown.active {
+      display: block;
+      animation: slideDown 0.3s ease;
+    }
+
+    .font-dropdown h4 {
+      font-size: 1.5rem;
+      color: var(--grey-shade);
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--grey-tint);
+      font-family: var(--font-body);
+      font-weight: 600;
+    }
+
+    .font-option {
+      padding: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 0.5rem;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .font-option:hover {
+      background: var(--grey-tint);
+      border-color: var(--secondary-base);
+    }
+
+    .font-option.selected {
+      background: var(--secondary-tint);
+      border-color: var(--secondary-base);
+    }
+
+    .font-option-text {
+      font-size: 1.6rem;
+      color: var(--grey-shade);
+    }
+
+    .font-option-check {
+      color: var(--secondary-base);
+      font-size: 1.8rem;
+      display: none;
+    }
+
+    .font-option.selected .font-option-check {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--grey-tint);
+    }
+
+    .form-header-icon {
+      font-size: 4rem;
+    }
+
+    .form-header-text h2 {
+      color: var(--grey-shade);
+      font-size: 3.2rem;
+      margin-bottom: 0.5rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+    }
+
+    .form-header-text p {
+      color: var(--grey-base);
+      font-size: 1.5rem;
+      font-family: var(--font-handwriting);
+      font-weight: 600;
+    }
+
+    .journal-form-enhanced {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .form-group-enhanced {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-group-enhanced label {
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--grey-shade);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-body);
+    }
+
+    .label-icon {
+      font-size: 2rem;
+    }
+
+    #main-title {
+      font-size: 2.8rem;
+      font-weight: 600;
+      border: 2px solid var(--grey-tint);
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: var(--grey-tint);
+      transition: all 0.3s;
+      font-family: var(--font-heading);
+    }
+
+    #main-title:focus {
+      border-color: var(--secondary-base);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(151, 117, 250, 0.1);
+      outline: none;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .category-option {
+      position: relative;
+    }
+
+    .category-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .category-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1.5rem 1rem;
+      background: var(--grey-tint);
+      border: 2px solid var(--grey-tint);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .category-icon {
+      font-size: 2.8rem;
+    }
+
+    .category-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--grey-base);
+      font-family: var(--font-body);
+    }
+
+    .category-option input[type="radio"]:checked + .category-label {
+      background: var(--secondary-tint);
+      border-color: var(--secondary-base);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(151, 117, 250, 0.3);
+    }
+
+    .category-option input[type="radio"]:checked + .category-label .category-name {
+      color: var(--secondary-shade);
+    }
+
+    .category-label:hover {
+      border-color: var(--secondary-base);
+      transform: translateY(-2px);
+    }
+
+    #journal-entry {
+      min-height: 300px;
+      padding: 2rem;
+      font-size: 1.7rem;
+      line-height: 1.9;
+      border: 2px solid var(--grey-tint);
+      border-radius: 12px;
+      background: var(--grey-tint);
+      resize: vertical;
+      transition: all 0.3s;
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    #journal-entry:focus {
+      border-color: var(--secondary-base);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(151, 117, 250, 0.1);
+      outline: none;
+    }
+
+    .char-count {
+      text-align: right;
+      color: var(--grey-base);
+      font-size: 1.3rem;
+      margin-top: -2rem;
+      font-family: var(--font-body);
+      font-style: italic;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: flex-end;
+    }
+
+    .btn-save {
+      padding: 1.5rem 4rem;
+      font-size: 1.7rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, var(--secondary-shade), var(--secondary-base));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(151, 117, 250, 0.4);
+      font-family: var(--font-body);
+      letter-spacing: 0.5px;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(151, 117, 250, 0.5);
+    }
+
+    .btn-clear {
+      padding: 1.5rem 3rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      background: white;
+      color: var(--grey-base);
+      border: 2px solid var(--grey-tint);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: var(--font-body);
+    }
+
+    .btn-clear:hover {
+      border-color: var(--grey-base);
+      background: var(--grey-tint);
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .journal-form-card {
+        padding: 2rem;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .stat-card {
+        padding: 1.5rem 2rem;
+      }
+
+      .journal-header h1 {
+        font-size: 3.6rem;
+      }
+      
+      .journal-header p {
+        font-size: 1.6rem;
+      }
+      
+      .stat-card h3 {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <!-- NAVBAR -->
     <header>
       <nav class="navbar">
         <a class="beta" href="index.html">
@@ -24,67 +487,324 @@
         </ul>
       </nav>
     </header>
-
-    <!-- FULL PAGE CREATE JOURNAL -->
-    <main>
-      <section class="journal-section">
-        <h1 class="journal-heading">Create Journal</h1>
-        <form action="/api/v1/journals" method="post" class="journal-form">
-
-          <div class="journal-group">
-            <label for="main-title">Journal Title</label>
-            <input id="main-title" type="text" name="title" placeholder="Enter title" minlength="3" required>
-          </div>
-
-          <div class="journal-group">
-            <label for="journal-category">Journal Category</label>
-            <select id="journal-category" name="category" required>
-              <option value="idea">Idea</option>
-              <option value="note">Note</option>
-              <option value="goal">Goal</option>
-              <option value="habit">Habit</option>
-              <option value="memory">Memory</option>
-              <option value="mood">Mood</option>
-              <option value="event">Event</option>
-              <option value="task">Task</option>
-            </select>
-          </div>
-
-          <div class="journal-group">
-            <label for="journal-entry">Journal Entry</label>
-            <textarea id="journal-entry" name="entry" rows="12" minlength="10" required></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Save Journal</button>
-        </form>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <a href="index.html"><img class="logo-sm" src="images/quill.svg" alt="quill logo"></a>
-      <ul class="social-icons-container">
-        <li><a href="https://www.instagram.com/"><img class="social-icons" src="images/instagram.svg" alt="instagram logo"></a></li>
-        <li><a href="https://www.facebook.com/"><img class="social-icons" src="images/facebook.svg" alt="facebook logo"></a></li>
-        <li><a href="https://www.tiktok.com/"><img class="social-icons" src="images/tiktok.svg" alt="tiktok logo"></a></li>
-        <li><a href="https://www.linkedin.com/"><img class="social-icons" src="images/linkedin.svg" alt="linkedin logo"></a></li>
-        <li><a href="https://www.youtube.com/"><img class="social-icons" src="images/youtube.svg" alt="youtube logo"></a></li>
-      </ul>
-      <ul class="footer-links-container">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html">Register</a></li>
-      </ul>
-      <p class="small-text">Made with <span class="heart-icon">♥︎</span> in India</p>
-    </footer>
   </div>
 
-  <!-- Chat Button -->
+  <div class="journal-page-wrapper">
+    <div class="journal-container">
+      <div class="journal-header">
+        <h1>✍️ Create Your Journal</h1>
+        <p>Document your thoughts, ideas, and reflections</p>
+      </div>
+
+      <div class="journal-stats" id="journalStats">
+        <div class="stat-card">
+          <h3 id="totalJournals">0</h3>
+          <p>Total Journals</p>
+        </div>
+        <div class="stat-card">
+          <h3 id="todayJournals">0</h3>
+          <p>Today</p>
+        </div>
+      </div>
+
+      <div class="journal-form-card">
+        <!-- Font Selector -->
+        <div class="font-selector-container">
+          <button type="button" class="font-selector-btn" id="fontSelectorBtn">
+            <span>🎨</span>
+            <span>Change Font</span>
+          </button>
+          <div class="font-dropdown" id="fontDropdown">
+            <h4>Select Writing Font</h4>
+            <div class="font-option selected" data-font="inter">
+              <span class="font-option-text font-inter">Inter (Default)</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="roboto">
+              <span class="font-option-text font-roboto">Roboto</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="open-sans">
+              <span class="font-option-text font-open-sans">Open Sans</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="poppins">
+              <span class="font-option-text font-poppins">Poppins</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="merriweather">
+              <span class="font-option-text font-merriweather">Merriweather</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="lora">
+              <span class="font-option-text font-lora">Lora</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="caveat">
+              <span class="font-option-text font-caveat">Caveat (Handwriting)</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="dancing">
+              <span class="font-option-text font-dancing">Dancing Script</span>
+              <span class="font-option-check">✓</span>
+            </div>
+            <div class="font-option" data-font="pacifico">
+              <span class="font-option-text font-pacifico">Pacifico</span>
+              <span class="font-option-check">✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-header">
+          <span class="form-header-icon">📝</span>
+          <div class="form-header-text">
+            <h2>New Journal Entry</h2>
+            <p>Express yourself freely and authentically</p>
+          </div>
+        </div>
+
+        <form class="journal-form-enhanced" id="journalForm">
+          <div class="form-group-enhanced">
+            <label for="main-title">
+              <span class="label-icon">📌</span>
+              Title
+            </label>
+            <input 
+              id="main-title" 
+              type="text" 
+              name="title" 
+              placeholder="Give your journal a meaningful title..." 
+              minlength="3" 
+              required
+            >
+          </div>
+
+          <div class="form-group-enhanced">
+            <label>
+              <span class="label-icon">🏷️</span>
+              Category
+            </label>
+            <div class="category-grid">
+              <div class="category-option">
+                <input type="radio" id="cat-idea" name="category" value="idea" checked>
+                <label for="cat-idea" class="category-label">
+                  <span class="category-icon">💡</span>
+                  <span class="category-name">Idea</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-note" name="category" value="note">
+                <label for="cat-note" class="category-label">
+                  <span class="category-icon">📝</span>
+                  <span class="category-name">Note</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-goal" name="category" value="goal">
+                <label for="cat-goal" class="category-label">
+                  <span class="category-icon">🎯</span>
+                  <span class="category-name">Goal</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-habit" name="category" value="habit">
+                <label for="cat-habit" class="category-label">
+                  <span class="category-icon">⚡</span>
+                  <span class="category-name">Habit</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-memory" name="category" value="memory">
+                <label for="cat-memory" class="category-label">
+                  <span class="category-icon">💭</span>
+                  <span class="category-name">Memory</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-mood" name="category" value="mood">
+                <label for="cat-mood" class="category-label">
+                  <span class="category-icon">😊</span>
+                  <span class="category-name">Mood</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-event" name="category" value="event">
+                <label for="cat-event" class="category-label">
+                  <span class="category-icon">📅</span>
+                  <span class="category-name">Event</span>
+                </label>
+              </div>
+              <div class="category-option">
+                <input type="radio" id="cat-task" name="category" value="task">
+                <label for="cat-task" class="category-label">
+                  <span class="category-icon">✅</span>
+                  <span class="category-name">Task</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group-enhanced">
+            <label for="journal-entry">
+              <span class="label-icon">✏️</span>
+              Your Thoughts
+            </label>
+            <textarea 
+              id="journal-entry" 
+              name="entry" 
+              placeholder="Start writing your thoughts here... Let your ideas flow freely."
+              minlength="10" 
+              required
+            ></textarea>
+            <div class="char-count">
+              <span id="charCount">0</span> characters
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-clear" id="clearBtn">Clear</button>
+            <button type="submit" class="btn-save">Save Journal 💾</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <a href="index.html"><img class="logo-sm" src="images/quill.svg" alt="quill logo"></a>
+    <ul class="social-icons-container">
+      <li><a href="https://www.instagram.com/"><img class="social-icons" src="images/instagram.svg" alt="instagram logo"></a></li>
+      <li><a href="https://www.facebook.com/"><img class="social-icons" src="images/facebook.svg" alt="facebook logo"></a></li>
+      <li><a href="https://www.tiktok.com/"><img class="social-icons" src="images/tiktok.svg" alt="tiktok logo"></a></li>
+      <li><a href="https://www.linkedin.com/"><img class="social-icons" src="images/linkedin.svg" alt="linkedin logo"></a></li>
+      <li><a href="https://www.youtube.com/"><img class="social-icons" src="images/youtube.svg" alt="youtube logo"></a></li>
+    </ul>
+    <ul class="footer-links-container">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="register.html">Register</a></li>
+    </ul>
+    <p class="small-text">Made with <span class="heart-icon">♥︎</span> in India</p>
+  </footer>
+
   <div class="chat-container">
     <img class="chat-icon" src="images/chat.svg" alt="chat icon">
   </div>
 
-  <!-- JS -->
   <script src="script.js"></script>
+  <script>
+    // Font Selector Functionality
+    const fontSelectorBtn = document.getElementById('fontSelectorBtn');
+    const fontDropdown = document.getElementById('fontDropdown');
+    const fontOptions = document.querySelectorAll('.font-option');
+    const titleInput = document.getElementById('main-title');
+    const textArea = document.getElementById('journal-entry');
+
+    // Toggle dropdown
+    fontSelectorBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      fontDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!fontDropdown.contains(e.target) && e.target !== fontSelectorBtn) {
+        fontDropdown.classList.remove('active');
+      }
+    });
+
+    // Load saved font preference
+    const savedFont = localStorage.getItem('journalFont') || 'inter';
+    applyFont(savedFont);
+
+    // Font selection
+    fontOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        const selectedFont = option.dataset.font;
+        
+        // Update UI
+        fontOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        
+        // Apply font
+        applyFont(selectedFont);
+        
+        // Save preference
+        localStorage.setItem('journalFont', selectedFont);
+        
+        // Close dropdown
+        fontDropdown.classList.remove('active');
+      });
+    });
+
+    function applyFont(fontClass) {
+      // Remove all font classes
+      const fontClasses = ['font-inter', 'font-roboto', 'font-open-sans', 'font-poppins', 
+                          'font-merriweather', 'font-lora', 'font-caveat', 'font-dancing', 'font-pacifico'];
+      
+      titleInput.classList.remove(...fontClasses);
+      textArea.classList.remove(...fontClasses);
+      
+      // Add selected font class
+      const newFontClass = `font-${fontClass}`;
+      titleInput.classList.add(newFontClass);
+      textArea.classList.add(newFontClass);
+      
+      // Update selected option in dropdown
+      fontOptions.forEach(opt => {
+        if (opt.dataset.font === fontClass) {
+          opt.classList.add('selected');
+        } else {
+          opt.classList.remove('selected');
+        }
+      });
+    }
+
+    // Character counter
+    const textarea = document.getElementById('journal-entry');
+    const charCount = document.getElementById('charCount');
+
+    textarea.addEventListener('input', () => {
+      charCount.textContent = textarea.value.length;
+    });
+
+    // Clear button
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all fields?')) {
+        document.getElementById('journalForm').reset();
+        charCount.textContent = '0';
+      }
+    });
+
+    // Update stats
+    function updateStats() {
+      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      if (currentUser.email) {
+        const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+        const userJournals = journals.filter(j => j.userEmail === currentUser.email);
+        
+        // Total journals
+        document.getElementById('totalJournals').textContent = userJournals.length;
+        
+        // Today's journals
+        const today = new Date().toDateString();
+        const todayJournals = userJournals.filter(j => 
+          new Date(j.date).toDateString() === today
+        );
+        document.getElementById('todayJournals').textContent = todayJournals.length;
+      }
+    }
+
+    // Update stats on load
+    updateStats();
+
+    // Override form submission to update stats
+    const originalFormHandler = document.querySelector('.journal-form-enhanced');
+    if (originalFormHandler) {
+      originalFormHandler.addEventListener('submit', () => {
+        setTimeout(updateStats, 500);
+      });
+    }
+  </script>
 </body>
 </html>
