@@ -201,7 +201,8 @@ if (journalForm) {
     e.preventDefault();
     
     const title = document.getElementById('main-title').value.trim();
-    const category = document.getElementById('journal-category').value;
+    const categoryRadio = document.querySelector('input[name="category"]:checked'); 
+    const category = categoryRadio ? categoryRadio.value : 'idea';
     const entry = document.getElementById('journal-entry').value.trim();
     
     // Validation
@@ -359,4 +360,5 @@ function getCurrentUser() {
 // - updateJournal(journalId, updates)
 // - logout()
 // - getCurrentUser()
+
 
