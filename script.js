@@ -1,8 +1,4 @@
-// ========================================
-// COMPLETE WORKING QUILL APP SCRIPT
-// ========================================
-
-console.log('✅ Script loaded successfully');
+// script.js - Complete Quill Journaling App JavaScript
 
 // ========================================
 // CHAT POPUP FUNCTIONALITY
@@ -12,12 +8,14 @@ let chatBox;
 
 if (chatBtn) {
   chatBtn.addEventListener('click', () => {
+    // If popup already exists, remove it
     if (chatBox) {
       chatBox.remove();
       chatBox = null;
       return;
     }
 
+    // Otherwise create popup
     chatBox = document.createElement('div');
     chatBox.className = 'chat-box';
     chatBox.innerHTML = `
@@ -30,6 +28,7 @@ if (chatBtn) {
     `;
     document.body.appendChild(chatBox);
 
+    // Close button inside chat
     chatBox.querySelector('.close-btn').addEventListener('click', () => {
       chatBox.remove();
       chatBox = null;
@@ -38,25 +37,13 @@ if (chatBtn) {
 }
 
 // ========================================
-// HELPER FUNCTIONS
+// UPDATE UI FOR LOGGED IN USERS
 // ========================================
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem('currentUser') || '{}');
-}
-
-function logout() {
-  const confirmLogout = confirm('Are you sure you want to logout?');
-  if (confirmLogout) {
-    localStorage.removeItem('currentUser');
-    alert('👋 Logged out successfully!');
-    window.location.href = 'index.html';
-  }
-}
-
 function updateUIForLoggedInUser() {
   const currentUser = getCurrentUser();
   
   if (currentUser && currentUser.name) {
+    // Update navigation buttons
     const navBtnContainer = document.querySelector('.nav-btn-container');
     
     if (navBtnContainer) {
@@ -75,235 +62,300 @@ function updateUIForLoggedInUser() {
 }
 
 // ========================================
-// REGISTRATION
+// REGISTRATION FUNCTIONALITY
 // ========================================
-if (window.location.pathname.includes('register.html')) {
-  console.log('📝 Register page loaded');
-  
-  const registerForm = document.querySelector('form');
-  if (registerForm) {
-    registerForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      console.log('🔄 Registration form submitted');
-      
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      
-      console.log('Form data:', { name, email, passwordLength: password.length });
-      
-      if (!name || !email || !password) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      if (password.length < 6) {
-        alert('Password must be at least 6 characters long');
-        return;
-      }
-      
-      const users = JSON.parse(localStorage.getItem('quillUsers') || '[]');
-      const existingUser = users.find(user => user.email === email);
-      
-      if (existingUser) {
-        alert('Email already registered. Please login.');
-        window.location.href = 'login.html';
-        return;
-      }
-      
-      const newUser = {
-        id: Date.now(),
-        name,
-        email,
-        password,
-        createdAt: new Date().toISOString()
-      };
-      
-      users.push(newUser);
-      localStorage.setItem('quillUsers', JSON.stringify(users));
+const registerForm = document.querySelector('form');
+if (registerForm && window.location.pathname.includes('register.html')) {
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    
+    // Validation
+    if (!name || !email || !password) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters long');
+      return;
+    }
+    
+    // Get existing users or create empty array
+    const users = JSON.parse(localStorage.getItem('quillUsers') || '[]');
+    
+    // Check if email already exists
+    const existingUser = users.find(user => user.email === email);
+    if (existingUser) {
+      alert('Email already registered. Please login.');
+      window.location.href = 'login.html';
+      return;
+    }
+    
+    // Add new user
+    const newUser = {
+      id: Date.now(),
+      name,
+      email,
+      password,
+      createdAt: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    localStorage.setItem('quillUsers', JSON.stringify(users));
+    
+    // Set current user (without password)
+    localStorage.setItem('currentUser', JSON.stringify({ 
+      id: newUser.id,
+      name, 
+      email 
+    }));
+    
+    // Show welcome message and redirect
+    alert(`🎉 Registration successful! Welcome to Quill, ${name}!`);
+    window.location.href = 'create-journal.html';
+  });
+}
+
+// ========================================
+// LOGIN FUNCTIONALITY
+// ========================================
+const loginForm = document.querySelector('form');
+if (loginForm && window.location.pathname.includes('login.html')) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    
+    // Validation
+    if (!email || !password) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    // Get users from localStorage
+    const users = JSON.parse(localStorage.getItem('quillUsers') || '[]');
+    
+    // Find matching user
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      // Set current user (without password)
       localStorage.setItem('currentUser', JSON.stringify({ 
-        id: newUser.id,
-        name, 
-        email 
+        id: user.id,
+        name: user.name, 
+        email: user.email 
       }));
       
-      console.log('✅ User registered:', newUser);
-      alert(`🎉 Registration successful! Welcome to Quill, ${name}!`);
+      // Show welcome message and redirect
+      alert(`👋 Welcome back, ${user.name}!`);
       window.location.href = 'create-journal.html';
-    });
-  }
+    } else {
+      alert('❌ Invalid email or password. Please try again.');
+    }
+  });
 }
 
 // ========================================
-// LOGIN
+// JOURNAL CREATION FUNCTIONALITY
 // ========================================
-if (window.location.pathname.includes('login.html')) {
-  console.log('🔐 Login page loaded');
+const journalForm = document.querySelector('.journal-form');
+if (journalForm) {
+  // Check if user is logged in on page load
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   
-  const loginForm = document.querySelector('form');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      console.log('🔄 Login form submitted');
-      
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      
-      console.log('Login attempt:', { email });
-      
-      if (!email || !password) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      const users = JSON.parse(localStorage.getItem('quillUsers') || '[]');
-      const user = users.find(u => u.email === email && u.password === password);
-      
-      if (user) {
-        localStorage.setItem('currentUser', JSON.stringify({ 
-          id: user.id,
-          name: user.name, 
-          email: user.email 
-        }));
-        
-        console.log('✅ Login successful:', user);
-        alert(`👋 Welcome back, ${user.name}!`);
-        window.location.href = 'create-journal.html';
-      } else {
-        console.log('❌ Login failed');
-        alert('❌ Invalid email or password. Please try again.');
-      }
-    });
-  }
-}
-
-// ========================================
-// CREATE JOURNAL - THIS IS THE IMPORTANT PART!
-// ========================================
-if (window.location.pathname.includes('create-journal.html')) {
-  console.log('✍️ Create Journal page loaded');
-  
-  // Check login
-  const currentUser = getCurrentUser();
   if (!currentUser.email) {
     alert('⚠️ Please login first to create journals');
     window.location.href = 'login.html';
   } else {
-    console.log('✅ User logged in:', currentUser);
+    // Update UI for logged in user
     updateUIForLoggedInUser();
     
-    // Wait for DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('journalForm');
-      console.log('Form element found:', form ? 'YES' : 'NO');
-      
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          console.log('🔄 Journal form submitted');
-          
-          // Get form values
-          const titleInput = document.getElementById('main-title');
-          const entryInput = document.getElementById('journal-entry');
-          const categoryInput = document.querySelector('input[name="category"]:checked');
-          
-          console.log('Form elements:', {
-            titleInput: titleInput ? 'found' : 'NOT FOUND',
-            entryInput: entryInput ? 'found' : 'NOT FOUND',
-            categoryInput: categoryInput ? 'found' : 'NOT FOUND'
-          });
-          
-          if (!titleInput || !entryInput || !categoryInput) {
-            alert('❌ Error: Form elements not found!');
-            console.error('Missing form elements');
-            return;
-          }
-          
-          const title = titleInput.value.trim();
-          const entry = entryInput.value.trim();
-          const category = categoryInput.value;
-          
-          console.log('Form values:', { title, entry: entry.substring(0, 50) + '...', category });
-          
-          // Validation
-          if (!title || !entry) {
-            alert('Please fill in all fields');
-            return;
-          }
-          
-          if (title.length < 3) {
-            alert('Title must be at least 3 characters long');
-            return;
-          }
-          
-          if (entry.length < 10) {
-            alert('Journal entry must be at least 10 characters long');
-            return;
-          }
-          
-          // Create journal object
-          const journal = {
-            id: Date.now(),
-            title: title,
-            category: category,
-            entry: entry,
-            date: new Date().toISOString(),
-            userEmail: currentUser.email,
-            userName: currentUser.name
-          };
-          
-          console.log('📝 New journal:', journal);
-          
-          // Save to localStorage
-          try {
-            const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-            console.log('📚 Existing journals:', journals.length);
-            
-            journals.unshift(journal);
-            localStorage.setItem('quillJournals', JSON.stringify(journals));
-            
-            console.log('✅ Journal saved! Total journals:', journals.length);
-            
-            // Verify it was saved
-            const verifyJournals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-            console.log('🔍 Verification - Total journals in storage:', verifyJournals.length);
-            
-            alert('✅ Journal saved successfully!');
-            
-            // Clear form
-            form.reset();
-            const charCount = document.getElementById('charCount');
-            if (charCount) charCount.textContent = '0';
-            
-            // Ask to view journals
-            const viewJournals = confirm('Journal saved! Would you like to view all your journals?');
-            if (viewJournals) {
-              window.location.href = 'view-journals.html';
-            }
-          } catch (error) {
-            console.error('❌ Error saving journal:', error);
-            alert('Error saving journal: ' + error.message);
-          }
-        });
-        
-        console.log('✅ Form event listener attached');
-      } else {
-        console.error('❌ Form not found!');
-      }
-    });
+    // Show welcome message at top of journal page
+    const journalSection = document.querySelector('.journal-section');
+    const welcomeMsg = document.createElement('div');
+    welcomeMsg.style.cssText = `
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 3rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    `;
+    welcomeMsg.innerHTML = `
+      <h3 style="font-size: 2.4rem; margin-bottom: 0.5rem;">👋 Welcome, ${currentUser.name}!</h3>
+      <p style="font-size: 1.6rem; opacity: 0.9;">Start documenting your thoughts and reflections</p>
+    `;
+    journalSection.insertBefore(welcomeMsg, journalSection.firstChild);
   }
+  
+  // Load existing journals count
+  loadJournalStats();
+  
+  journalForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const title = document.getElementById('main-title').value.trim();
+    const category = document.getElementById('journal-category').value;
+    const entry = document.getElementById('journal-entry').value.trim();
+    
+    // Validation
+    if (!title || !category || !entry) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    if (title.length < 3) {
+      alert('Title must be at least 3 characters long');
+      return;
+    }
+    
+    if (entry.length < 10) {
+      alert('Journal entry must be at least 10 characters long');
+      return;
+    }
+    
+    // Get current user
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
+    if (!currentUser.email) {
+      alert('Session expired. Please login again.');
+      window.location.href = 'login.html';
+      return;
+    }
+    
+    // Create journal object
+    const journal = {
+      id: Date.now(),
+      title,
+      category,
+      entry,
+      date: new Date().toISOString(),
+      userEmail: currentUser.email,
+      userName: currentUser.name
+    };
+    
+    // Get existing journals or create empty array
+    const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+    
+    // Add new journal at the beginning (most recent first)
+    journals.unshift(journal);
+    localStorage.setItem('quillJournals', JSON.stringify(journals));
+    
+    alert('✅ Journal saved successfully!');
+    
+    // Clear form
+    journalForm.reset();
+    
+    // Update stats
+    loadJournalStats();
+    
+    // Optional: Ask if user wants to create another
+    const createAnother = confirm('Journal saved! Would you like to create another journal?');
+    if (!createAnother) {
+      // Stay on the page
+    }
+  });
 }
 
 // ========================================
 // UPDATE UI ON PAGE LOAD
 // ========================================
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('🌐 Page loaded:', window.location.pathname);
-  updateUIForLoggedInUser();
-  
-  // Debug: Show current user and journals
+document.addEventListener('DOMContentLoaded', () => {
   const currentUser = getCurrentUser();
-  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-  console.log('👤 Current user:', currentUser);
-  console.log('📚 Total journals in storage:', journals.length);
+  
+  // Update UI if user is logged in
+  if (currentUser && currentUser.name) {
+    updateUIForLoggedInUser();
+    console.log(`✅ Logged in as: ${currentUser.name} (${currentUser.email})`);
+  }
 });
+
+// ========================================
+// HELPER FUNCTIONS
+// ========================================
+
+// Function to load and display journal statistics
+function loadJournalStats() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  
+  if (currentUser.email) {
+    const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+    const userJournals = journals.filter(j => j.userEmail === currentUser.email);
+    
+    console.log(`📊 Total journals: ${userJournals.length}`);
+    console.log('📚 Your journals:', userJournals);
+  }
+}
+
+// Function to get all user journals
+function getUserJournals() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  
+  if (!currentUser.email) {
+    return [];
+  }
+  
+  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+  return journals.filter(j => j.userEmail === currentUser.email);
+}
+
+// Function to get journals by category
+function getJournalsByCategory(category) {
+  const userJournals = getUserJournals();
+  return userJournals.filter(j => j.category === category);
+}
+
+// Function to delete a journal
+function deleteJournal(journalId) {
+  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+  const updatedJournals = journals.filter(j => j.id !== journalId);
+  localStorage.setItem('quillJournals', JSON.stringify(updatedJournals));
+  return true;
+}
+
+// Function to update a journal
+function updateJournal(journalId, updates) {
+  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+  const journalIndex = journals.findIndex(j => j.id === journalId);
+  
+  if (journalIndex !== -1) {
+    journals[journalIndex] = { ...journals[journalIndex], ...updates };
+    localStorage.setItem('quillJournals', JSON.stringify(journals));
+    return true;
+  }
+  
+  return false;
+}
+
+// Function to logout user
+function logout() {
+  const confirmLogout = confirm('Are you sure you want to logout?');
+  
+  if (confirmLogout) {
+    localStorage.removeItem('currentUser');
+    alert('👋 Logged out successfully!');
+    window.location.href = 'index.html';
+  }
+}
+
+// Function to get current user
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('currentUser') || '{}');
+}
+
+// ========================================
+// EXPORT FUNCTIONS (for use in other pages)
+// ========================================
+// You can use these functions in your HTML pages:
+// - getUserJournals()
+// - getJournalsByCategory(category)
+// - deleteJournal(journalId)
+// - updateJournal(journalId, updates)
+// - logout()
+// - getCurrentUser()
