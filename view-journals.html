@@ -178,16 +178,48 @@
       gap: 1rem;
     }
 
-    .btn-view, .btn-delete {
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      font-size: 1.4rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: none;
-      font-family: 'Inter', sans-serif;
-    }
+
+/* NAYA CODE - ISSE REPLACE KARO */
+.btn-view, .btn-edit, .btn-delete {
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-view {
+  background: var(--secondary-base);
+  color: white;
+}
+
+.btn-view:hover {
+  background: var(--secondary-shade);
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background: #28a745;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
 
     .btn-view {
       background: var(--secondary-base);
@@ -551,12 +583,17 @@
             <p class="journal-preview">${journal.entry}</p>
             <div class="journal-actions">
               <button class="btn-view" onclick="viewJournal(${journal.id})">View Full</button>
+              <button class="btn-edit" onclick="editJournal(${journal.id})">Edit</button>
               <button class="btn-delete" onclick="deleteJournal(${journal.id})">Delete</button>
             </div>
           </div>
         `).join('');
       }
     }
+
+    function editJournal(journalId) {
+  window.location.href = `edit-journal.html?id=${journalId}`;
+}
 
     // View full journal in modal
     function viewJournal(journalId) {
