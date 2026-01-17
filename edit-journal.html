@@ -615,148 +615,158 @@
   </div>
 
   <script src="script.js"></script>
-  <script>
-    // Get journal ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const journalId = parseInt(urlParams.get('id'));
+<script>
+  // Get journal ID from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const journalId = parseInt(urlParams.get('id'));
 
-    console.log('Edit journal ID:', journalId);
+  console.log('Edit journal ID:', journalId);
 
-    if (!journalId) {
-      alert('No journal selected for editing');
-      window.location.href = 'view-journals.html';
+  if (!journalId) {
+    alert('No journal selected for editing');
+    window.location.href = 'view-journals.html';
+  }
+
+  // Check login
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  if (!currentUser.email) {
+    alert('Please login first');
+    window.location.href = 'login.html';
+  }
+
+  // Load journal data
+  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+  const journal = journals.find(j => j.id === journalId);
+
+  if (!journal) {
+    alert('Journal not found');
+    window.location.href = 'view-journals.html';
+  }
+
+  // Check if user owns this journal
+  if (journal.userEmail !== currentUser.email) {
+    alert('You can only edit your own journals');
+    window.location.href = 'view-journals.html';
+  }
+
+  // Populate form with existing data
+  document.getElementById('main-title').value = journal.title;
+  document.getElementById('journal-entry').value = journal.entry;
+  document.getElementById('charCount').textContent = journal.entry.length;
+  document.querySelector(`input[name="category"][value="${journal.category}"]`).checked = true;
+
+  // Character counter
+  const textarea = document.getElementById('journal-entry');
+  const charCount = document.getElementById('charCount');
+  textarea.addEventListener('input', () => {
+    charCount.textContent = textarea.value.length;
+  });
+
+  // Font selector functionality
+  const fontSelectorBtn = document.getElementById('fontSelectorBtn');
+  const fontDropdown = document.getElementById('fontDropdown');
+  const fontOptions = document.querySelectorAll('.font-option');
+  const titleInput = document.getElementById('main-title');
+
+  fontSelectorBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    fontDropdown.classList.toggle('active');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!fontDropdown.contains(e.target) && e.target !== fontSelectorBtn) {
+      fontDropdown.classList.remove('active');
     }
+  });
 
-    // Check login
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    if (!currentUser.email) {
-      alert('Please login first');
-      window.location.href = 'login.html';
-    }
+  const savedFont = localStorage.getItem('journalFont') || 'inter';
+  applyFont(savedFont);
 
-    // Load journal data
-    const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-    const journal = journals.find(j => j.id === journalId);
-
-    if (!journal) {
-      alert('Journal not found');
-      window.location.href = 'view-journals.html';
-    }
-
-    // Check if user owns this journal
-    if (journal.userEmail !== currentUser.email) {
-      alert('You can only edit your own journals');
-      window.location.href = 'view-journals.html';
-    }
-
-    // Populate form
-    document.getElementById('main-title').value = journal.title;
-    document.getElementById('journal-entry').value = journal.entry;
-    document.getElementById('charCount').textContent = journal.entry.length;
-    document.querySelector(`input[name="category"][value="${journal.category}"]`).checked = true;
-
-    // Character counter
-    const textarea = document.getElementById('journal-entry');
-    const charCount = document.getElementById('charCount');
-    textarea.addEventListener('input', () => {
-      charCount.textContent = textarea.value.length;
+  fontOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const selectedFont = option.dataset.font;
+      fontOptions.forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      applyFont(selectedFont);
+      localStorage.setItem('journalFont', selectedFont);
+      fontDropdown.classList.remove('active');
     });
+  });
 
-    // Font selector
-    const fontSelectorBtn = document.getElementById('fontSelectorBtn');
-    const fontDropdown = document.getElementById('fontDropdown');
-    const fontOptions = document.querySelectorAll('.font-option');
-    const titleInput = document.getElementById('main-title');
-
-    fontSelectorBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      fontDropdown.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!fontDropdown.contains(e.target) && e.target !== fontSelectorBtn) {
-        fontDropdown.classList.remove('active');
-      }
-    });
-
-    const savedFont = localStorage.getItem('journalFont') || 'inter';
-    applyFont(savedFont);
-
-    fontOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        const selectedFont = option.dataset.font;
-        fontOptions.forEach(opt => opt.classList.remove('selected'));
-        option.classList.add('selected');
-        applyFont(selectedFont);
-        localStorage.setItem('journalFont', selectedFont);
-        fontDropdown.classList.remove('active');
-      });
-    });
-
-    function applyFont(fontClass) {
-      const fontClasses = ['font-inter', 'font-roboto', 'font-open-sans', 'font-poppins', 
-                          'font-merriweather', 'font-lora', 'font-caveat', 'font-dancing', 'font-pacifico'];
-      
-      titleInput.classList.remove(...fontClasses);
-      textarea.classList.remove(...fontClasses);
-      
-      const newFontClass = `font-${fontClass}`;
-      titleInput.classList.add(newFontClass);
-      textarea.classList.add(newFontClass);
-      
-      fontOptions.forEach(opt => {
-        if (opt.dataset.font === fontClass) {
-          opt.classList.add('selected');
-        } else {
-          opt.classList.remove('selected');
-        }
-      });
-    }
-
-    // Handle form submission
-    document.getElementById('editJournalForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const title = document.getElementById('main-title').value.trim();
-      const categoryRadio = document.querySelector('input[name="category"]:checked');
-      const category = categoryRadio ? categoryRadio.value : 'idea';
-      const entry = document.getElementById('journal-entry').value.trim();
-      
-      if (!title || !entry) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      if (title.length < 3) {
-        alert('Title must be at least 3 characters long');
-        return;
-      }
-      
-      if (entry.length < 10) {
-        alert('Journal entry must be at least 10 characters long');
-        return;
-      }
-      
-      // Update journal
-      const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-      const index = journals.findIndex(j => j.id === journalId);
-      
-      if (index !== -1) {
-        journals[index] = {
-          ...journals[index],
-          title,
-          category,
-          entry,
-          lastModified: new Date().toISOString()
-        };
-        
-        localStorage.setItem('quillJournals', JSON.stringify(journals));
-        alert('✅ Journal updated successfully!');
-        window.location.href = 'view-journals.html';
+  function applyFont(fontClass) {
+    const fontClasses = ['font-inter', 'font-roboto', 'font-open-sans', 'font-poppins', 
+                        'font-merriweather', 'font-lora', 'font-caveat', 'font-dancing', 'font-pacifico'];
+    
+    titleInput.classList.remove(...fontClasses);
+    textarea.classList.remove(...fontClasses);
+    
+    const newFontClass = `font-${fontClass}`;
+    titleInput.classList.add(newFontClass);
+    textarea.classList.add(newFontClass);
+    
+    fontOptions.forEach(opt => {
+      if (opt.dataset.font === fontClass) {
+        opt.classList.add('selected');
       } else {
-        alert('Error updating journal');
+        opt.classList.remove('selected');
       }
     });
-  </script>
+  }
+
+  // CRITICAL: Handle form submission - UPDATE not CREATE
+  document.getElementById('editJournalForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const title = document.getElementById('main-title').value.trim();
+    const categoryRadio = document.querySelector('input[name="category"]:checked');
+    const category = categoryRadio ? categoryRadio.value : 'idea';
+    const entry = document.getElementById('journal-entry').value.trim();
+    
+    if (!title || !entry) {
+      alert('Please fill in all fields');
+      return;
+    }
+    
+    if (title.length < 3) {
+      alert('Title must be at least 3 characters long');
+      return;
+    }
+    
+    if (entry.length < 10) {
+      alert('Journal entry must be at least 10 characters long');
+      return;
+    }
+    
+    // Get all journals from localStorage
+    const allJournals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+    
+    // Find the index of the journal being edited
+    const journalIndex = allJournals.findIndex(j => j.id === journalId);
+    
+    if (journalIndex !== -1) {
+      // UPDATE the existing journal in place (don't create new one)
+      allJournals[journalIndex] = {
+        id: journalId,  // Keep same ID
+        title: title,
+        category: category,
+        entry: entry,
+        date: journal.date,  // Keep original creation date
+        userEmail: journal.userEmail,  // Keep original user
+        userName: journal.userName,  // Keep original user name
+        lastModified: new Date().toISOString()  // Add last modified timestamp
+      };
+      
+      // Save the updated array back to localStorage
+      localStorage.setItem('quillJournals', JSON.stringify(allJournals));
+      
+      alert('✅ Journal updated successfully!');
+      window.location.href = 'view-journals.html';
+    } else {
+      alert('❌ Error: Journal not found');
+      console.error('Journal ID not found in array:', journalId);
+    }
+  });
+</script>
 </body>
+
 </html>
