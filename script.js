@@ -344,12 +344,22 @@ function updateJournal(journalId, updates) {
   const journalIndex = journals.findIndex(j => j.id === journalId);
   
   if (journalIndex !== -1) {
-    journals[journalIndex] = { ...journals[journalIndex], ...updates };
+    journals[journalIndex] = { 
+      ...journals[journalIndex], 
+      ...updates,
+      lastModified: new Date().toISOString()
+    };
     localStorage.setItem('quillJournals', JSON.stringify(journals));
     return true;
   }
   
   return false;
+}
+
+// Function to get a single journal by ID
+function getJournalById(journalId) {
+  const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+  return journals.find(j => j.id === journalId);
 }
 
 // Function to logout user
