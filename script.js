@@ -37,6 +37,15 @@ if (chatBtn) {
 }
 
 // ========================================
+// HELPER FUNCTIONS (Declare first)
+// ========================================
+
+// Function to get current user
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('currentUser') || '{}');
+}
+
+// ========================================
 // UPDATE UI FOR LOGGED IN USERS
 // ========================================
 function updateUIForLoggedInUser() {
@@ -54,8 +63,8 @@ function updateUIForLoggedInUser() {
           </span>
         </li>
         <li><a class="btn btn-primary-outline" href="view-journals.html">📚 My Journals</a></li>
-        <li><a class="btn btn-primary-outline" href="create-journal.html">✍️ Create</a></li>
-        <li><a class="btn btn-primary" href="#" onclick="logout(); return false;">Logout</a></li>
+        <li><a class="btn btn-primary-outline" href="create-journal.html">✏️ Create</a></li>
+        <li><a class="btn btn-primary" href="javascript:void(0);" onclick="logout()">Logout</a></li>
       `;
     }
   }
@@ -163,7 +172,7 @@ if (loginForm && window.location.pathname.includes('login.html')) {
 // ========================================
 // JOURNAL CREATION FUNCTIONALITY
 // ========================================
-const journalForm = document.querySelector('..journal-form-enhanced');
+const journalForm = document.querySelector('.journal-form-enhanced') || document.querySelector('.journal-form');
 if (journalForm) {
   // Check if user is logged in on page load
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -176,22 +185,25 @@ if (journalForm) {
     updateUIForLoggedInUser();
     
     // Show welcome message at top of journal page
-    const journalSection = document.querySelector('.journal-section');
-    const welcomeMsg = document.createElement('div');
-    welcomeMsg.style.cssText = `
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 2rem;
-      border-radius: 12px;
-      margin-bottom: 3rem;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    `;
-    welcomeMsg.innerHTML = `
-      <h3 style="font-size: 2.4rem; margin-bottom: 0.5rem;">👋 Welcome, ${currentUser.name}!</h3>
-      <p style="font-size: 1.6rem; opacity: 0.9;">Start documenting your thoughts and reflections</p>
-    `;
-    journalSection.insertBefore(welcomeMsg, journalSection.firstChild);
+    const journalSection = document.querySelector('.journal-container');
+    if (journalSection && !document.querySelector('.welcome-banner')) {
+      const welcomeMsg = document.createElement('div');
+      welcomeMsg.className = 'welcome-banner';
+      welcomeMsg.style.cssText = `
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        margin-bottom: 3rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      `;
+      welcomeMsg.innerHTML = `
+        <h3 style="font-size: 2.4rem; margin-bottom: 0.5rem; color: white;">👋 Welcome, ${currentUser.name}!</h3>
+        <p style="font-size: 1.6rem; opacity: 0.9; color: white;">Start documenting your thoughts and reflections</p>
+      `;
+      journalSection.insertBefore(welcomeMsg, journalSection.firstChild);
+    }
   }
   
   // Load existing journals count
@@ -201,7 +213,8 @@ if (journalForm) {
     e.preventDefault();
     
     const title = document.getElementById('main-title').value.trim();
-    const category = document.getElementById('journal-category').value;
+    const categoryRadio = document.querySelector('input[name="category"]:checked');
+    const category = categoryRadio ? categoryRadio.value : 'idea';
     const entry = document.getElementById('journal-entry').value.trim();
     
     // Validation
@@ -258,7 +271,7 @@ if (journalForm) {
     // Optional: Ask if user wants to create another
     const createAnother = confirm('Journal saved! Would you like to create another journal?');
     if (!createAnother) {
-      // Stay on the page
+      window.location.href = 'view-journals.html';
     }
   });
 }
@@ -275,6 +288,12 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(`✅ Logged in as: ${currentUser.name} (${currentUser.email})`);
   }
 });
+
+// Also update UI immediately for faster response
+const currentUserCheck = getCurrentUser();
+if (currentUserCheck && currentUserCheck.name) {
+  setTimeout(() => updateUIForLoggedInUser(), 100);
+}
 
 // ========================================
 // HELPER FUNCTIONS
@@ -344,11 +363,6 @@ function logout() {
   }
 }
 
-// Function to get current user
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem('currentUser') || '{}');
-}
-
 // ========================================
 // EXPORT FUNCTIONS (for use in other pages)
 // ========================================
@@ -359,4 +373,3 @@ function getCurrentUser() {
 // - updateJournal(journalId, updates)
 // - logout()
 // - getCurrentUser()
-
