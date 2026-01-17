@@ -163,7 +163,7 @@ if (loginForm && window.location.pathname.includes('login.html')) {
 // ========================================
 // JOURNAL CREATION FUNCTIONALITY
 // ========================================
-const journalForm = document.querySelector('.journal-form');
+const journalForm = document.querySelector('..journal-form-enhanced');
 if (journalForm) {
   // Check if user is logged in on page load
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -359,3 +359,4 @@ function getCurrentUser() {
 // - updateJournal(journalId, updates)
 // - logout()
 // - getCurrentUser()
+
