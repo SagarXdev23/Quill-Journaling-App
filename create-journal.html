@@ -5,44 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Caveat:wght@600;700&family=Merriweather:wght@400;700&family=Roboto:wght@400;500;700&family=Lora:wght@400;600&family=Open+Sans:wght@400;600&family=Dancing+Script:wght@600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="queries.css">
   <title>Create Journal | Quill</title>
   <style>
-    /* Enhanced Journal Page Styles */
-    
-    /* Font Variables */
+    /* Professional Design Variables */
     :root {
-      --font-heading: 'Playfair Display', serif;
-      --font-body: 'Inter', sans-serif;
-      --font-handwriting: 'Caveat', cursive;
-      --font-default: 'Poppins', sans-serif;
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.2);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
     }
 
-    /* Font Classes for User Selection */
-    .font-playfair { font-family: 'Playfair Display', serif !important; }
-    .font-merriweather { font-family: 'Merriweather', serif !important; }
-    .font-lora { font-family: 'Lora', serif !important; }
-    .font-inter { font-family: 'Inter', sans-serif !important; }
-    .font-roboto { font-family: 'Roboto', sans-serif !important; }
-    .font-open-sans { font-family: 'Open Sans', sans-serif !important; }
-    .font-poppins { font-family: 'Poppins', sans-serif !important; }
-    .font-caveat { font-family: 'Caveat', cursive !important; }
-    .font-dancing { font-family: 'Dancing Script', cursive !important; }
-    .font-pacifico { font-family: 'Pacifico', cursive !important; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     .journal-page-wrapper {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gradient-primary);
       min-height: 100vh;
-      padding: 2rem 0;
+      padding: 2rem 0 4rem;
     }
 
     .journal-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
+    /* Header */
     .journal-header {
       text-align: center;
       margin-bottom: 3rem;
@@ -51,65 +50,76 @@
 
     .journal-header h1 {
       color: white;
-      font-size: 5.6rem;
+      font-size: 5.2rem;
       margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      font-family: var(--font-heading);
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+      font-family: 'Playfair Display', serif;
       font-weight: 900;
       letter-spacing: -1px;
     }
 
     .journal-header p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.8rem;
-      font-family: var(--font-body);
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 2rem;
+      font-family: 'Inter', sans-serif;
       font-weight: 500;
     }
 
+    /* Stats Cards */
     .journal-stats {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
-      justify-content: center;
       margin-bottom: 3rem;
       animation: fadeInUp 0.6s ease 0.2s both;
     }
 
     .stat-card {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(10px);
-      padding: 2rem 3rem;
-      border-radius: 15px;
+      padding: 2.5rem;
+      border-radius: var(--radius-md);
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: var(--shadow-lg);
     }
 
     .stat-card h3 {
       color: white;
-      font-size: 3.6rem;
+      font-size: 4rem;
       margin-bottom: 0.5rem;
-      font-family: var(--font-heading);
+      font-family: 'Inter', sans-serif;
       font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .stat-card p {
       color: rgba(255, 255, 255, 0.9);
       font-size: 1.4rem;
-      font-family: var(--font-body);
-      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
+    /* Form Card */
     .journal-form-card {
       background: white;
-      border-radius: 20px;
+      border-radius: var(--radius-lg);
       padding: 4rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow-xl);
       animation: fadeInUp 0.6s ease 0.4s both;
       position: relative;
+      border: 1px solid #f1f3f5;
     }
 
-    /* Font Selector Styles */
+    /* Font Selector */
     .font-selector-container {
       position: absolute;
       top: 2rem;
@@ -121,8 +131,8 @@
       background: var(--secondary-tint);
       border: 2px solid var(--secondary-base);
       color: var(--secondary-shade);
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
+      padding: 1rem 1.8rem;
+      border-radius: var(--radius-sm);
       font-size: 1.4rem;
       font-weight: 600;
       cursor: pointer;
@@ -130,14 +140,15 @@
       align-items: center;
       gap: 0.8rem;
       transition: all 0.3s;
-      font-family: var(--font-body);
+      font-family: 'Inter', sans-serif;
+      box-shadow: var(--shadow-sm);
     }
 
     .font-selector-btn:hover {
       background: var(--secondary-base);
       color: white;
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(151, 117, 250, 0.3);
+      box-shadow: var(--shadow-md);
     }
 
     .font-dropdown {
@@ -146,10 +157,10 @@
       right: 0;
       background: white;
       border: 2px solid var(--secondary-base);
-      border-radius: 12px;
-      padding: 1rem;
-      min-width: 280px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      min-width: 300px;
+      box-shadow: var(--shadow-lg);
       display: none;
       z-index: 100;
     }
@@ -162,16 +173,16 @@
     .font-dropdown h4 {
       font-size: 1.5rem;
       color: var(--grey-shade);
-      margin-bottom: 1rem;
-      padding-bottom: 0.8rem;
-      border-bottom: 1px solid var(--grey-tint);
-      font-family: var(--font-body);
-      font-weight: 600;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #e9ecef;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
     }
 
     .font-option {
       padding: 1.2rem;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: all 0.2s;
       margin-bottom: 0.5rem;
@@ -182,7 +193,7 @@
     }
 
     .font-option:hover {
-      background: var(--grey-tint);
+      background: #f8f9fa;
       border-color: var(--secondary-base);
     }
 
@@ -200,51 +211,52 @@
       color: var(--secondary-base);
       font-size: 1.8rem;
       display: none;
+      font-weight: bold;
     }
 
     .font-option.selected .font-option-check {
       display: block;
     }
 
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
+    /* Form Header */
     .form-header {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 2px solid var(--grey-tint);
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 3px solid #e9ecef;
     }
 
     .form-header-icon {
-      font-size: 4rem;
+      font-size: 5rem;
+      background: var(--gradient-primary);
+      width: 8rem;
+      height: 8rem;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-md);
     }
 
     .form-header-text h2 {
-      color: var(--grey-shade);
-      font-size: 3.2rem;
+      color: #212529;
+      font-size: 3.5rem;
       margin-bottom: 0.5rem;
-      font-family: var(--font-heading);
+      font-family: 'Inter', sans-serif;
       font-weight: 700;
+      letter-spacing: -0.5px;
     }
 
     .form-header-text p {
-      color: var(--grey-base);
-      font-size: 1.5rem;
-      font-family: var(--font-handwriting);
-      font-weight: 600;
+      color: #6c757d;
+      font-size: 1.6rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
+    /* Form Styles */
     .journal-form-enhanced {
       display: flex;
       flex-direction: column;
@@ -258,28 +270,30 @@
     }
 
     .form-group-enhanced label {
-      font-size: 1.7rem;
-      font-weight: 600;
-      color: var(--grey-shade);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #212529;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      font-family: var(--font-body);
+      gap: 1rem;
+      font-family: 'Inter', sans-serif;
     }
 
     .label-icon {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
 
+    /* Title Input - Professional */
     #main-title {
-      font-size: 2.8rem;
+      font-size: 2.6rem;
       font-weight: 600;
-      border: 2px solid var(--grey-tint);
-      border-radius: 12px;
-      padding: 1.5rem;
-      background: var(--grey-tint);
+      border: 2px solid #e9ecef;
+      border-radius: var(--radius-md);
+      padding: 1.8rem;
+      background: white;
       transition: all 0.3s;
-      font-family: var(--font-heading);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.5px;
     }
 
     #main-title:focus {
@@ -289,6 +303,12 @@
       outline: none;
     }
 
+    #main-title::placeholder {
+      color: #adb5bd;
+      font-weight: 500;
+    }
+
+    /* Category Grid - Improved */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -309,54 +329,68 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.8rem;
-      padding: 1.5rem 1rem;
-      background: var(--grey-tint);
-      border: 2px solid var(--grey-tint);
-      border-radius: 12px;
+      gap: 1rem;
+      padding: 2rem 1.5rem;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-align: center;
+      box-shadow: var(--shadow-sm);
     }
 
     .category-icon {
-      font-size: 2.8rem;
+      font-size: 3.2rem;
+      transition: transform 0.3s;
     }
 
     .category-name {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--grey-base);
-      font-family: var(--font-body);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #495057;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .category-label:hover {
+      border-color: var(--secondary-base);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .category-label:hover .category-icon {
+      transform: scale(1.15);
     }
 
     .category-option input[type="radio"]:checked + .category-label {
       background: var(--secondary-tint);
       border-color: var(--secondary-base);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(151, 117, 250, 0.3);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
 
     .category-option input[type="radio"]:checked + .category-label .category-name {
       color: var(--secondary-shade);
     }
 
-    .category-label:hover {
-      border-color: var(--secondary-base);
-      transform: translateY(-2px);
+    .category-option input[type="radio"]:checked + .category-label .category-icon {
+      transform: scale(1.2);
     }
 
+    /* Text Area */
     #journal-entry {
-      min-height: 300px;
+      min-height: 350px;
       padding: 2rem;
-      font-size: 1.7rem;
-      line-height: 1.9;
-      border: 2px solid var(--grey-tint);
-      border-radius: 12px;
-      background: var(--grey-tint);
+      font-size: 1.6rem;
+      line-height: 1.8;
+      border: 2px solid #e9ecef;
+      border-radius: var(--radius-md);
+      background: white;
       resize: vertical;
       transition: all 0.3s;
-      font-family: var(--font-body);
+      font-family: 'Inter', sans-serif;
       font-weight: 400;
     }
 
@@ -367,59 +401,84 @@
       outline: none;
     }
 
-    .char-count {
-      text-align: right;
-      color: var(--grey-base);
-      font-size: 1.3rem;
-      margin-top: -2rem;
-      font-family: var(--font-body);
-      font-style: italic;
+    #journal-entry::placeholder {
+      color: #adb5bd;
     }
 
+    .char-count {
+      text-align: right;
+      color: #6c757d;
+      font-size: 1.3rem;
+      margin-top: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+    }
+
+    /* Action Buttons */
     .form-actions {
       display: flex;
       gap: 1.5rem;
       justify-content: flex-end;
+      padding-top: 2rem;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .btn-save, .btn-clear {
+      padding: 1.5rem 4rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-sm);
     }
 
     .btn-save {
-      padding: 1.5rem 4rem;
-      font-size: 1.7rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, var(--secondary-shade), var(--secondary-base));
+      background: var(--gradient-primary);
       color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px rgba(151, 117, 250, 0.4);
-      font-family: var(--font-body);
-      letter-spacing: 0.5px;
+      flex: 1;
     }
 
     .btn-save:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(151, 117, 250, 0.5);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-save:active {
+      transform: translateY(-1px);
     }
 
     .btn-clear {
-      padding: 1.5rem 3rem;
-      font-size: 1.6rem;
-      font-weight: 600;
       background: white;
-      color: var(--grey-base);
-      border: 2px solid var(--grey-tint);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: var(--font-body);
+      color: #6c757d;
+      border: 2px solid #dee2e6;
+      padding: 1.5rem 3rem;
     }
 
     .btn-clear:hover {
-      border-color: var(--grey-base);
-      background: var(--grey-tint);
+      background: #f8f9fa;
+      border-color: #adb5bd;
+      color: #495057;
+      transform: translateY(-2px);
     }
 
+    /* Font Classes */
+    .font-playfair { font-family: 'Playfair Display', serif !important; }
+    .font-merriweather { font-family: 'Merriweather', serif !important; }
+    .font-lora { font-family: 'Lora', serif !important; }
+    .font-inter { font-family: 'Inter', sans-serif !important; }
+    .font-roboto { font-family: 'Roboto', sans-serif !important; }
+    .font-open-sans { font-family: 'Open Sans', sans-serif !important; }
+    .font-poppins { font-family: 'Poppins', sans-serif !important; }
+    .font-caveat { font-family: 'Caveat', cursive !important; }
+    .font-dancing { font-family: 'Dancing Script', cursive !important; }
+    .font-pacifico { font-family: 'Pacifico', cursive !important; }
+
+    /* Animations */
     @keyframes fadeInDown {
       from {
         opacity: 0;
@@ -442,34 +501,72 @@
       }
     }
 
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
+      .journal-header h1 {
+        font-size: 3.6rem;
+      }
+
+      .journal-header p {
+        font-size: 1.6rem;
+      }
+
+      .journal-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
       .category-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1.2rem;
       }
 
       .journal-form-card {
-        padding: 2rem;
+        padding: 2.5rem;
+      }
+
+      .form-header {
+        flex-direction: column;
+        text-align: center;
       }
 
       .form-actions {
         flex-direction: column;
       }
 
-      .stat-card {
-        padding: 1.5rem 2rem;
+      .btn-save, .btn-clear {
+        width: 100%;
       }
 
-      .journal-header h1 {
-        font-size: 3.6rem;
+      .font-selector-container {
+        position: static;
+        margin-bottom: 2rem;
       }
-      
-      .journal-header p {
-        font-size: 1.6rem;
+
+      .font-selector-btn {
+        width: 100%;
+        justify-content: center;
       }
-      
+    }
+
+    @media (max-width: 480px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
       .stat-card h3 {
-        font-size: 2.8rem;
+        font-size: 3rem;
       }
     }
   </style>
@@ -693,64 +790,49 @@
 
   <script src="script.js"></script>
   <script>
-    // Font Selector Functionality
+    // Font Selector
     const fontSelectorBtn = document.getElementById('fontSelectorBtn');
     const fontDropdown = document.getElementById('fontDropdown');
     const fontOptions = document.querySelectorAll('.font-option');
     const titleInput = document.getElementById('main-title');
     const textArea = document.getElementById('journal-entry');
 
-    // Toggle dropdown
     fontSelectorBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       fontDropdown.classList.toggle('active');
     });
 
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (!fontDropdown.contains(e.target) && e.target !== fontSelectorBtn) {
         fontDropdown.classList.remove('active');
       }
     });
 
-    // Load saved font preference
     const savedFont = localStorage.getItem('journalFont') || 'inter';
     applyFont(savedFont);
 
-    // Font selection
     fontOptions.forEach(option => {
       option.addEventListener('click', () => {
         const selectedFont = option.dataset.font;
-        
-        // Update UI
         fontOptions.forEach(opt => opt.classList.remove('selected'));
         option.classList.add('selected');
-        
-        // Apply font
         applyFont(selectedFont);
-        
-        // Save preference
         localStorage.setItem('journalFont', selectedFont);
-        
-        // Close dropdown
         fontDropdown.classList.remove('active');
       });
     });
 
     function applyFont(fontClass) {
-      // Remove all font classes
       const fontClasses = ['font-inter', 'font-roboto', 'font-open-sans', 'font-poppins', 
                           'font-merriweather', 'font-lora', 'font-caveat', 'font-dancing', 'font-pacifico'];
       
       titleInput.classList.remove(...fontClasses);
       textArea.classList.remove(...fontClasses);
       
-      // Add selected font class
       const newFontClass = `font-${fontClass}`;
       titleInput.classList.add(newFontClass);
       textArea.classList.add(newFontClass);
       
-      // Update selected option in dropdown
       fontOptions.forEach(opt => {
         if (opt.dataset.font === fontClass) {
           opt.classList.add('selected');
@@ -770,41 +852,41 @@
 
     // Clear button
     document.getElementById('clearBtn').addEventListener('click', () => {
-      if (confirm('Are you sure you want to clear all fields?')) {
-        document.getElementById('journalForm').reset();
-        charCount.textContent = '0';
-      }
-    });
+      <function_calls>
+<invoke name="artifacts">
+<parameter name="command">update</parameter>
+<parameter name="id">create_journal_improved</parameter>
+<parameter name="old_str">    // Clear button
+document.getElementById('clearBtn').addEventListener('click', () => {</parameter>
+<parameter name="new_str">    // Clear button
+document.getElementById('clearBtn').addEventListener('click', () => {
+if (confirm('Are you sure you want to clear all fields?')) {
+document.getElementById('journalForm').reset();
+charCount.textContent = '0';
+}
+});
+ // Update stats
+function updateStats() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  if (currentUser.email) {
+    const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+    const userJournals = journals.filter(j => j.userEmail === currentUser.email);
+    
+    document.getElementById('totalJournals').textContent = userJournals.length;
+    
+    const today = new Date().toDateString();
+    const todayJournals = userJournals.filter(j => 
+      new Date(j.date).toDateString() === today
+    );
+    document.getElementById('todayJournals').textContent = todayJournals.length;
+  }
+}
 
-    // Update stats
-    function updateStats() {
-      const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      if (currentUser.email) {
-        const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
-        const userJournals = journals.filter(j => j.userEmail === currentUser.email);
-        
-        // Total journals
-        document.getElementById('totalJournals').textContent = userJournals.length;
-        
-        // Today's journals
-        const today = new Date().toDateString();
-        const todayJournals = userJournals.filter(j => 
-          new Date(j.date).toDateString() === today
-        );
-        document.getElementById('todayJournals').textContent = todayJournals.length;
-      }
-    }
+updateStats();
 
-    // Update stats on load
-    updateStats();
-
-    // Override form submission to update stats
-    const originalFormHandler = document.querySelector('.journal-form-enhanced');
-    if (originalFormHandler) {
-      originalFormHandler.addEventListener('submit', () => {
-        setTimeout(updateStats, 500);
-      });
-    }
-  </script>
-</body>
-</html>
+const originalFormHandler = document.querySelector('.journal-form-enhanced');
+if (originalFormHandler) {
+  originalFormHandler.addEventListener('submit', () => {
+    setTimeout(updateStats, 500);
+  });
+}</parameter>
