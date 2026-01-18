@@ -170,10 +170,12 @@ if (loginForm && window.location.pathname.includes('login.html')) {
 }
 
 // ========================================
-// JOURNAL CREATION FUNCTIONALITY
+// JOURNAL CREATION FUNCTIONALITY (create-journal.html ONLY)
 // ========================================
 const journalForm = document.querySelector('.journal-form-enhanced') || document.querySelector('.journal-form');
-if (journalForm) {
+
+// CRITICAL: Only handle form submission for create-journal.html, NOT edit-journal.html
+if (journalForm && window.location.pathname.includes('create-journal.html')) {
   // Check if user is logged in on page load
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
   
