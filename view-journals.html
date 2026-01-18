@@ -5,231 +5,307 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="queries.css">
   <title>My Journals | Quill</title>
   <style>
+    /* Professional & Clean UI Design */
+    :root {
+      --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     .journals-page-wrapper {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--gradient-primary);
       min-height: 100vh;
-      padding: 2rem 0;
+      padding: 2rem 0 4rem;
     }
 
     .journals-container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
+    /* Header Section */
     .journals-header {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
       animation: fadeInDown 0.6s ease;
     }
 
     .journals-header h1 {
       color: white;
-      font-size: 4.8rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-size: 5.2rem;
+      margin-bottom: 1.2rem;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
       font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      letter-spacing: -1px;
     }
 
     .journals-header p {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 1.8rem;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 2rem;
       font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
-    .filter-section {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 2rem;
-      border-radius: 15px;
+    /* Stats Section */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
       margin-bottom: 3rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-md);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stat-number {
+      font-size: 4rem;
+      font-weight: 700;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-label {
+      font-size: 1.4rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-lg);
       animation: fadeInUp 0.6s ease 0.2s both;
     }
 
     .filter-controls {
-      display: flex;
-      gap: 2rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1.5rem;
       align-items: center;
-      flex-wrap: wrap;
     }
 
     .filter-group {
       display: flex;
-      align-items: center;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.8rem;
     }
 
     .filter-group label {
-      color: white;
+      color: var(--grey-shade);
       font-weight: 600;
+      font-size: 1.4rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .search-box, .filter-select {
+      padding: 1.2rem 1.5rem;
+      border-radius: var(--radius-sm);
+      border: 2px solid #e9ecef;
       font-size: 1.5rem;
       font-family: 'Inter', sans-serif;
-    }
-
-    .filter-select {
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      border: 2px solid white;
+      transition: all 0.3s;
       background: white;
-      font-size: 1.4rem;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      min-width: 180px;
     }
 
-    .search-box {
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      border: 2px solid white;
-      font-size: 1.4rem;
-      font-family: 'Inter', sans-serif;
-      flex: 1;
-      min-width: 250px;
+    .search-box:focus, .filter-select:focus {
+      outline: none;
+      border-color: var(--secondary-base);
+      box-shadow: 0 0 0 3px rgba(151, 117, 250, 0.1);
     }
 
+    .search-box::placeholder {
+      color: #adb5bd;
+    }
+
+    /* Journals Grid */
     .journals-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 3rem;
       margin-bottom: 4rem;
-      animation: fadeInUp 0.6s ease 0.4s both;
+      animation: fadeInUp 0.6s ease 0.3s both;
     }
 
+    /* Journal Card - Professional Design */
     .journal-card {
       background: white;
-      border-radius: 20px;
-      padding: 2.5rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      box-shadow: var(--shadow-md);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      border: 1px solid #f1f3f5;
+    }
+
+    .journal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-primary);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
     }
 
     .journal-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--secondary-base);
+    }
+
+    .journal-card:hover::before {
+      transform: scaleX(1);
     }
 
     .journal-category-badge {
       position: absolute;
       top: 2rem;
       right: 2rem;
-      padding: 0.8rem 1.5rem;
-      border-radius: 20px;
-      font-size: 1.3rem;
-      font-weight: 600;
+      padding: 0.8rem 1.6rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 700;
       font-family: 'Inter', sans-serif;
-      text-transform: capitalize;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: var(--shadow-sm);
     }
 
+    /* Category Colors - Professional Palette */
     .category-idea { background: #fff3cd; color: #856404; }
-    .category-note { background: #d1ecf1; color: #0c5460; }
-    .category-goal { background: #d4edda; color: #155724; }
-    .category-habit { background: #e2e3e5; color: #383d41; }
-    .category-memory { background: #f8d7da; color: #721c24; }
-    .category-mood { background: #cce5ff; color: #004085; }
+    .category-note { background: #cfe2ff; color: #084298; }
+    .category-goal { background: #d1e7dd; color: #0f5132; }
+    .category-habit { background: #e2e3e5; color: #41464b; }
+    .category-memory { background: #f8d7da; color: #842029; }
+    .category-mood { background: #cff4fc; color: #055160; }
     .category-event { background: #e7e8ea; color: #1b1e21; }
-    .category-task { background: #d1e7dd; color: #0f5132; }
+    .category-task { background: #d3f9d8; color: #146c43; }
 
     .journal-icon {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
+      font-size: 3.5rem;
+      margin-bottom: 2rem;
+      display: inline-block;
     }
 
+    /* Professional Title Font - Inter for readability */
     .journal-title {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 700;
-      color: var(--grey-shade);
-      margin-bottom: 1rem;
-      font-family: 'Playfair Display', serif;
+      color: #212529;
+      margin-bottom: 1.2rem;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.3;
       word-break: break-word;
+      letter-spacing: -0.5px;
     }
 
     .journal-date {
       font-size: 1.3rem;
-      color: var(--grey-base);
-      margin-bottom: 1.5rem;
+      color: #6c757d;
+      margin-bottom: 2rem;
       font-family: 'Inter', sans-serif;
+      font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
 
     .journal-preview {
       font-size: 1.5rem;
-      color: var(--grey-base);
-      line-height: 1.6;
-      margin-bottom: 2rem;
+      color: #495057;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
       font-family: 'Inter', sans-serif;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      font-weight: 400;
     }
 
+    /* Action Buttons */
     .journal-actions {
-      display: flex;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
       gap: 1rem;
     }
 
-
-/* NAYA CODE - ISSE REPLACE KARO */
-.btn-view, .btn-edit, .btn-delete {
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  border: none;
-  font-family: 'Inter', sans-serif;
-}
-
-.btn-view {
-  background: var(--secondary-base);
-  color: white;
-}
-
-.btn-view:hover {
-  background: var(--secondary-shade);
-  transform: translateY(-2px);
-}
-
-.btn-edit {
-  background: #28a745;
-  color: white;
-}
-
-.btn-edit:hover {
-  background: #218838;
-  transform: translateY(-2px);
-}
-
-.btn-delete {
-  background: #dc3545;
-  color: white;
-}
-
-.btn-delete:hover {
-  background: #c82333;
-  transform: translateY(-2px);
-}
+    .btn-view, .btn-edit, .btn-delete {
+      padding: 1.2rem 2rem;
+      border-radius: var(--radius-sm);
+      font-size: 1.4rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
 
     .btn-view {
       background: var(--secondary-base);
       color: white;
-      flex: 1;
     }
 
     .btn-view:hover {
       background: var(--secondary-shade);
       transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-edit {
+      background: #198754;
+      color: white;
+    }
+
+    .btn-edit:hover {
+      background: #157347;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
     .btn-delete {
@@ -238,37 +314,44 @@
     }
 
     .btn-delete:hover {
-      background: #c82333;
+      background: #bb2d3b;
       transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
 
+    /* Empty State */
     .empty-state {
       text-align: center;
-      padding: 6rem 2rem;
+      padding: 8rem 2rem;
       background: white;
-      border-radius: 20px;
-      animation: fadeInUp 0.6s ease 0.4s both;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      animation: fadeInUp 0.6s ease 0.3s both;
     }
 
     .empty-state-icon {
-      font-size: 8rem;
+      font-size: 10rem;
       margin-bottom: 2rem;
+      opacity: 0.5;
     }
 
     .empty-state h2 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       color: var(--grey-shade);
-      margin-bottom: 1rem;
-      font-family: 'Playfair Display', serif;
+      margin-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
     }
 
     .empty-state p {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       color: var(--grey-base);
       margin-bottom: 3rem;
       font-family: 'Inter', sans-serif;
+      font-weight: 400;
     }
 
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -276,9 +359,10 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.75);
       z-index: 1000;
       animation: fadeIn 0.3s ease;
+      backdrop-filter: blur(4px);
     }
 
     .modal.active {
@@ -290,14 +374,15 @@
 
     .modal-content {
       background: white;
-      border-radius: 20px;
+      border-radius: var(--radius-lg);
       padding: 4rem;
-      max-width: 800px;
+      max-width: 900px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
-      animation: slideUp 0.3s ease;
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     }
 
     .modal-close {
@@ -306,39 +391,55 @@
       right: 2rem;
       font-size: 3rem;
       cursor: pointer;
-      color: var(--grey-base);
-      transition: color 0.3s;
+      color: #6c757d;
+      transition: all 0.3s;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
     }
 
     .modal-close:hover {
-      color: var(--grey-shade);
+      color: #212529;
+      background: #f8f9fa;
+      transform: rotate(90deg);
     }
 
     .modal-title {
-      font-size: 3.2rem;
-      color: var(--grey-shade);
-      margin-bottom: 1rem;
-      font-family: 'Playfair Display', serif;
-      padding-right: 4rem;
+      font-size: 3.5rem;
+      color: #212529;
+      margin-bottom: 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      padding-right: 5rem;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
     }
 
     .modal-meta {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 2px solid #e9ecef;
       font-size: 1.4rem;
-      color: var(--grey-base);
+      color: #6c757d;
       font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
     .modal-entry {
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       line-height: 1.8;
-      color: var(--grey-base);
+      color: #495057;
       font-family: 'Inter', sans-serif;
+      font-weight: 400;
       white-space: pre-wrap;
     }
 
+    /* Animations */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -347,11 +448,11 @@
     @keyframes slideUp {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px) scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
     }
 
@@ -377,22 +478,60 @@
       }
     }
 
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .filter-controls {
+        grid-template-columns: 1fr;
+      }
+
+      .journals-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+    }
+
     @media (max-width: 768px) {
+      .journals-header h1 {
+        font-size: 3.6rem;
+      }
+
+      .journals-header p {
+        font-size: 1.6rem;
+      }
+
+      .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+
       .journals-grid {
         grid-template-columns: 1fr;
       }
 
-      .filter-controls {
-        flex-direction: column;
-        align-items: stretch;
+      .journal-actions {
+        grid-template-columns: 1fr;
       }
 
-      .search-box, .filter-select {
-        width: 100%;
+      .modal-content {
+        padding: 2.5rem;
       }
 
-      .journals-header h1 {
-        font-size: 3.2rem;
+      .modal-title {
+        font-size: 2.6rem;
+      }
+
+      .journal-card {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-number {
+        font-size: 3rem;
       }
     }
   </style>
@@ -419,12 +558,36 @@
         <p>Explore your thoughts and reflections</p>
       </div>
 
+      <!-- Stats Section -->
+      <div class="stats-section">
+        <div class="stat-card">
+          <div class="stat-number" id="totalJournals">0</div>
+          <div class="stat-label">Total Journals</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="thisWeek">0</div>
+          <div class="stat-label">This Week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="thisMonth">0</div>
+          <div class="stat-label">This Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="favoriteCategory">-</div>
+          <div class="stat-label">Top Category</div>
+        </div>
+      </div>
+
+      <!-- Filter Section -->
       <div class="filter-section">
         <div class="filter-controls">
-          <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search journals...">
+          <div class="filter-group">
+            <label for="searchBox">🔍 Search</label>
+            <input type="text" class="search-box" id="searchBox" placeholder="Search by title or content...">
+          </div>
           
           <div class="filter-group">
-            <label for="categoryFilter">Category:</label>
+            <label for="categoryFilter">🏷️ Category</label>
             <select class="filter-select" id="categoryFilter">
               <option value="all">All Categories</option>
               <option value="idea">💡 Idea</option>
@@ -439,7 +602,7 @@
           </div>
 
           <div class="filter-group">
-            <label for="sortFilter">Sort by:</label>
+            <label for="sortFilter">📊 Sort By</label>
             <select class="filter-select" id="sortFilter">
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -449,20 +612,17 @@
         </div>
       </div>
 
-      <div class="journals-grid" id="journalsGrid">
-        <!-- Journals will be loaded here -->
-      </div>
+      <div class="journals-grid" id="journalsGrid"></div>
 
       <div class="empty-state" id="emptyState" style="display: none;">
-        <div class="empty-state-icon">📝</div>
-        <h2>No Journals Yet</h2>
+        <div class="empty-state-icon">✍️</div>
+        <h2>No Journals Found</h2>
         <p>Start documenting your thoughts and reflections today!</p>
         <a href="create-journal.html" class="btn btn-primary">Create Your First Journal</a>
       </div>
     </div>
   </div>
 
-  <!-- Modal for viewing full journal -->
   <div class="modal" id="journalModal">
     <div class="modal-content">
       <span class="modal-close" id="modalClose">&times;</span>
@@ -478,11 +638,11 @@
   <footer class="footer">
     <a href="index.html"><img class="logo-sm" src="images/quill.svg" alt="quill logo"></a>
     <ul class="social-icons-container">
-      <li><a href="https://www.instagram.com/"><img class="social-icons" src="images/instagram.svg" alt="instagram logo"></a></li>
-      <li><a href="https://www.facebook.com/"><img class="social-icons" src="images/facebook.svg" alt="facebook logo"></a></li>
-      <li><a href="https://www.tiktok.com/"><img class="social-icons" src="images/tiktok.svg" alt="tiktok logo"></a></li>
-      <li><a href="https://www.linkedin.com/"><img class="social-icons" src="images/linkedin.svg" alt="linkedin logo"></a></li>
-      <li><a href="https://www.youtube.com/"><img class="social-icons" src="images/youtube.svg" alt="youtube logo"></a></li>
+      <li><a href="https://www.instagram.com/"><img class="social-icons" src="images/instagram.svg" alt="instagram"></a></li>
+      <li><a href="https://www.facebook.com/"><img class="social-icons" src="images/facebook.svg" alt="facebook"></a></li>
+      <li><a href="https://www.tiktok.com/"><img class="social-icons" src="images/tiktok.svg" alt="tiktok"></a></li>
+      <li><a href="https://www.linkedin.com/"><img class="social-icons" src="images/linkedin.svg" alt="linkedin"></a></li>
+      <li><a href="https://www.youtube.com/"><img class="social-icons" src="images/youtube.svg" alt="youtube"></a></li>
     </ul>
     <ul class="footer-links-container">
       <li><a href="index.html">Home</a></li>
@@ -498,41 +658,57 @@
 
   <script src="script.js"></script>
   <script>
-    // Check if user is logged in
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     if (!currentUser.email) {
       alert('Please login to view your journals');
       window.location.href = 'login.html';
     }
 
-    // Get category icon
     function getCategoryIcon(category) {
       const icons = {
-        idea: '💡',
-        note: '📝',
-        goal: '🎯',
-        habit: '⚡',
-        memory: '💭',
-        mood: '😊',
-        event: '📅',
-        task: '✅'
+        idea: '💡', note: '📝', goal: '🎯', habit: '⚡',
+        memory: '💭', mood: '😊', event: '📅', task: '✅'
       };
       return icons[category] || '📝';
     }
 
-    // Format date
     function formatDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
       });
     }
 
-    // Load and display journals
+    function updateStats() {
+      const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
+      const userJournals = journals.filter(j => j.userEmail === currentUser.email);
+      
+      document.getElementById('totalJournals').textContent = userJournals.length;
+      
+      const now = new Date();
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const monthAgo = new Date(now.getFullYear(), now.getMonth(), 1);
+      
+      const thisWeek = userJournals.filter(j => new Date(j.date) >= weekAgo).length;
+      const thisMonth = userJournals.filter(j => new Date(j.date) >= monthAgo).length;
+      
+      document.getElementById('thisWeek').textContent = thisWeek;
+      document.getElementById('thisMonth').textContent = thisMonth;
+      
+      const categoryCount = {};
+      userJournals.forEach(j => {
+        categoryCount[j.category] = (categoryCount[j.category] || 0) + 1;
+      });
+      
+      const topCategory = Object.keys(categoryCount).reduce((a, b) => 
+        categoryCount[a] > categoryCount[b] ? a : b, '-'
+      );
+      
+      document.getElementById('favoriteCategory').textContent = 
+        topCategory !== '-' ? getCategoryIcon(topCategory) : '-';
+    }
+
     function loadJournals() {
       const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
       const userJournals = journals.filter(j => j.userEmail === currentUser.email);
@@ -541,7 +717,6 @@
       const categoryFilter = document.getElementById('categoryFilter').value;
       const sortFilter = document.getElementById('sortFilter').value;
 
-      // Filter journals
       let filteredJournals = userJournals.filter(journal => {
         const matchesSearch = journal.title.toLowerCase().includes(searchTerm) || 
                              journal.entry.toLowerCase().includes(searchTerm);
@@ -549,15 +724,10 @@
         return matchesSearch && matchesCategory;
       });
 
-      // Sort journals
       filteredJournals.sort((a, b) => {
-        if (sortFilter === 'newest') {
-          return new Date(b.date) - new Date(a.date);
-        } else if (sortFilter === 'oldest') {
-          return new Date(a.date) - new Date(b.date);
-        } else if (sortFilter === 'title') {
-          return a.title.localeCompare(b.title);
-        }
+        if (sortFilter === 'newest') return new Date(b.date) - new Date(a.date);
+        if (sortFilter === 'oldest') return new Date(a.date) - new Date(b.date);
+        if (sortFilter === 'title') return a.title.localeCompare(b.title);
       });
 
       const journalsGrid = document.getElementById('journalsGrid');
@@ -589,13 +759,14 @@
           </div>
         `).join('');
       }
+
+      updateStats();
     }
 
     function editJournal(journalId) {
-  window.location.href = `edit-journal.html?id=${journalId}`;
-}
+      window.location.href = `edit-journal.html?id=${journalId}`;
+    }
 
-    // View full journal in modal
     function viewJournal(journalId) {
       const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
       const journal = journals.find(j => j.id === journalId);
@@ -609,7 +780,6 @@
       }
     }
 
-    // Delete journal
     function deleteJournal(journalId) {
       if (confirm('Are you sure you want to delete this journal? This action cannot be undone.')) {
         const journals = JSON.parse(localStorage.getItem('quillJournals') || '[]');
@@ -620,7 +790,6 @@
       }
     }
 
-    // Close modal
     document.getElementById('modalClose').addEventListener('click', () => {
       document.getElementById('journalModal').classList.remove('active');
     });
@@ -631,12 +800,10 @@
       }
     });
 
-    // Event listeners for filters
     document.getElementById('searchBox').addEventListener('input', loadJournals);
     document.getElementById('categoryFilter').addEventListener('change', loadJournals);
     document.getElementById('sortFilter').addEventListener('change', loadJournals);
 
-    // Load journals on page load
     loadJournals();
   </script>
 </body>
