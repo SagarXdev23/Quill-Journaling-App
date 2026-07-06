@@ -1,22 +1,21 @@
-# ✍️ Quill - Journaling App
+# Quill - Journaling App  [Live](https://Sagarxdev23.github.io/Quill-Journaling-App/)
 
 Quill is a simple and elegant journaling web application built with **HTML, CSS, and JavaScript**.  
 It provides users with a distraction-free space to **create, organize, and reflect** through journal entries.
 
 ---
 
-## 🚀 Features
-
-- 📖 **Create Journal Entries** with title, category, and content  
-- 🗂 **Organize by Categories** (Idea, Note, Goal, Habit, Memory, Mood, Event, Task)  
-- 🔑 **User Authentication UI** – Login & Register pages  
-- 💬 **Chat Popup (Coming Soon)** – placeholder for future real-time chat  
-- 📱 **Responsive Design** – works across desktops, tablets, and mobiles  
-- 🎨 **Modern UI/UX** – clean typography, intuitive layout  
+## Features
+- **Create Journal Entries** with title, category, and content  
+- **Organize by Categories** (Idea, Note, Goal, Habit, Memory, Mood, Event, Task)  
+- **User Authentication UI** – Login & Register pages  
+- **Chat Popup (Coming Soon)** – placeholder for future real-time chat  
+- **Responsive Design** – works across desktops, tablets, and mobiles  
+- **Modern UI/UX** – clean typography, intuitive layout  
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **HTML5** – semantic structure  
 - **CSS3** – custom styles, responsive layouts (`app.css`, `queries.css`)  
@@ -25,7 +24,7 @@ It provides users with a distraction-free space to **create, organize, and refle
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 quill-journaling-app/
@@ -44,7 +43,7 @@ quill-journaling-app/
 
 ---
 
-## ⚙️ Setup & Usage
+## Setup & Usage
 
 1. Clone this repository:
    ```bash
@@ -58,22 +57,16 @@ quill-journaling-app/
 
 ---
 
-## 🌍 Live         
+##  Future Enhancements
 
-[Live Here](https://Sagarxdev23.github.io/Quill-Journaling-App/)
-
----
-
-## 🛠️ Future Enhancements
-
-- ✅ Connect with a backend (Node.js/Express, MongoDB) for persistent storage  
-- ✅ Add rich text editor for journal entries  
-- ✅ Implement authentication and authorization  
-- ✅ Add journal dashboard with filtering and search  
+- Connect with a backend (Node.js/Express, MongoDB) for persistent storage  
+- Add rich text editor for journal entries  
+- Implement authentication and authorization  
+- Add journal dashboard with filtering and search  
 
 ---
 
-## ❤️ Acknowledgments
+## Acknowledgments
 
 Built with **HTML, CSS, and JavaScript** as part of a journaling app project.  
 Made with ♥ in India 🇮🇳  
