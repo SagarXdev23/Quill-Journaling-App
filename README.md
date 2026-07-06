@@ -60,7 +60,7 @@ quill-journaling-app/
 
 ## 🌍 Live         
 
-(https://Sagarxdev23.github.io/Quill-Journaling-App/)
+[Live Here](https://Sagarxdev23.github.io/Quill-Journaling-App/)
 
 ---
 
